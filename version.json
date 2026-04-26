@@ -1,0 +1,6 @@
+{
+    "resource": "distortionz_robped",
+    "version": "1.0.0",
+    "changelog": "Initial release. Rob ambient civilian peds with weapon checks, cash/item/dirty money rewards, cooldowns, 80% police alerts, ped reactions, and Distortionz Notify support.",
+    "download": "https://github.com/Distortionzz/Distortionz_RobPed"
+}
