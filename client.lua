@@ -64,18 +64,34 @@ local function LoadAnimDict(dict)
     return true
 end
 
+local function AddHash(hashTable, name)
+    if not name or name == '' then return end
+
+    hashTable[joaat(name)] = true
+
+    if GetHashKey then
+        hashTable[GetHashKey(name)] = true
+    end
+end
+
 local function BuildHashes()
     for _, weaponName in ipairs(Config.AllowedWeapons or {}) do
-        allowedWeaponHashes[joaat(weaponName)] = true
+        AddHash(allowedWeaponHashes, weaponName)
     end
 
     for _, modelName in ipairs(Config.BlacklistedPedModels or {}) do
-        blacklistedModelHashes[joaat(modelName)] = true
+        AddHash(blacklistedModelHashes, modelName)
     end
 end
 
 local function IsPedRobbedRecently(ped)
     if not DoesEntityExist(ped) then return true end
+
+    local state = Entity(ped).state
+
+    if state and state.distortionz_robbed == true then
+        return true
+    end
 
     local pedKey = tostring(ped)
     local expires = robbedPeds[pedKey]
@@ -99,7 +115,19 @@ local function MarkPedRobbed(ped)
 
     robbedPeds[pedKey] = GetGameTimer() + duration
 
-    Entity(ped).state:set('distortionz_robbed', true, true)
+    pcall(function()
+        Entity(ped).state:set('distortionz_robbed', true, true)
+    end)
+
+    CreateThread(function()
+        Wait(duration)
+
+        if DoesEntityExist(ped) then
+            pcall(function()
+                Entity(ped).state:set('distortionz_robbed', false, true)
+            end)
+        end
+    end)
 end
 
 local function HasAllowedWeapon()
@@ -108,8 +136,24 @@ local function HasAllowedWeapon()
     local playerPed = PlayerPedId()
     local selectedWeapon = GetSelectedPedWeapon(playerPed)
 
-    if selectedWeapon == joaat('WEAPON_UNARMED') then
+    if not selectedWeapon or selectedWeapon == 0 then
         return false
+    end
+
+    local unarmedHash = joaat('WEAPON_UNARMED')
+
+    if selectedWeapon == unarmedHash then
+        return false
+    end
+
+    if GetHashKey and selectedWeapon == GetHashKey('WEAPON_UNARMED') then
+        return false
+    end
+
+    -- Main fix: allow any weapon the player actually has equipped.
+    -- This prevents valid guns from being rejected just because the weapon name is missing from Config.AllowedWeapons.
+    if Config.Robbery.allowAnyWeapon ~= false then
+        return true
     end
 
     return allowedWeaponHashes[selectedWeapon] == true
@@ -175,7 +219,7 @@ local function IsBlacklistedPed(ped)
 end
 
 
-local function IsValidRobPed(ped)
+local function IsValidRobPed(ped, ignoreWeaponCheck)
     if isRobbing then return false end
     if not ped or ped == 0 then return false end
     if not DoesEntityExist(ped) then return false end
@@ -185,6 +229,10 @@ local function IsValidRobPed(ped)
     if ped == playerPed then return false end
 
     if IsPedAPlayer(ped) and not Config.Robbery.allowPlayers then
+        return false
+    end
+
+    if not Config.Robbery.allowAnimals and not IsPedHuman(ped) then
         return false
     end
 
@@ -212,7 +260,7 @@ local function IsValidRobPed(ped)
         return false
     end
 
-    if not HasAllowedWeapon() then
+    if not ignoreWeaponCheck and not HasAllowedWeapon() then
         return false
     end
 
@@ -461,6 +509,11 @@ end)
 CreateThread(function()
     BuildHashes()
 
+    if GetResourceState('ox_target') ~= 'started' then
+        print(('[%s] ox_target is not started. Rob Ped target was not registered.'):format(Config.ResourceName))
+        return
+    end
+
     exports.ox_target:addGlobalPed({
         {
             name = 'distortionz_robped_rob_civilian',
@@ -468,7 +521,9 @@ CreateThread(function()
             label = Config.Target.label,
             distance = Config.Target.distance,
             canInteract = function(entity)
-                return IsValidRobPed(entity)
+                -- Show the target on valid civilians even when the player does not have a weapon out.
+                -- RobPed() still checks the weapon and sends a notification if the player tries without one.
+                return IsValidRobPed(entity, true)
             end,
             onSelect = function(data)
                 if not data or not data.entity then return end
@@ -479,14 +534,3 @@ CreateThread(function()
 
     DebugPrint('Global ped target registered.')
 end)
-
-blockedStateBags = {
-    'distortionz_protected_ped',
-    'distortionz_contact_ped',
-    'distortionz_underground_contact_ped',
-    'distortionz_delivery_receiver_ped',
-    'distortionz_shop_ped',
-    'distortionz_boss_ped',
-    'distortionz_launder_ped',
-    'distortionz_assassin_boss'
-}

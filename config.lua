@@ -3,7 +3,7 @@ Config = {}
 Config.Debug = false
 
 Config.ResourceName = 'distortionz_robped'
-Config.CurrentVersion = '1.0.0'
+Config.CurrentVersion = '1.0.1'
 
 Config.VersionCheck = {
     enabled = true,
@@ -28,6 +28,8 @@ Config.Robbery = {
     maxDistance = 4.0,
 
     requireWeapon = true,
+    allowAnyWeapon = true,
+
 
     markPedRobbed = true,
     robbedPedCooldown = 15 * 60,
@@ -70,14 +72,65 @@ Config.Protection = {
 }
 
 Config.AllowedWeapons = {
+    -- This list is only used when Config.Robbery.allowAnyWeapon = false.
+    -- With allowAnyWeapon = true, any equipped weapon except unarmed will work.
+
+    -- Pistols
     'WEAPON_PISTOL',
+    'WEAPON_PISTOL_MK2',
     'WEAPON_COMBATPISTOL',
+    'WEAPON_APPISTOL',
+    'WEAPON_PISTOL50',
     'WEAPON_SNSPISTOL',
+    'WEAPON_SNSPISTOL_MK2',
     'WEAPON_HEAVYPISTOL',
     'WEAPON_VINTAGEPISTOL',
+    'WEAPON_MARKSMANPISTOL',
+    'WEAPON_REVOLVER',
+    'WEAPON_REVOLVER_MK2',
+    'WEAPON_DOUBLEACTION',
+    'WEAPON_CERAMICPISTOL',
+    'WEAPON_NAVYREVOLVER',
+    'WEAPON_GADGETPISTOL',
+    'WEAPON_STUNGUN',
+    'WEAPON_STUNGUN_MP',
+
+    -- SMGs
     'WEAPON_MICROSMG',
     'WEAPON_MINISMG',
     'WEAPON_SMG',
+    'WEAPON_SMG_MK2',
+    'WEAPON_ASSAULTSMG',
+    'WEAPON_COMBATPDW',
+    'WEAPON_MACHINEPISTOL',
+
+    -- Shotguns
+    'WEAPON_PUMPSHOTGUN',
+    'WEAPON_PUMPSHOTGUN_MK2',
+    'WEAPON_SAWNOFFSHOTGUN',
+    'WEAPON_ASSAULTSHOTGUN',
+    'WEAPON_BULLPUPSHOTGUN',
+    'WEAPON_HEAVYSHOTGUN',
+    'WEAPON_DBSHOTGUN',
+    'WEAPON_AUTOSHOTGUN',
+    'WEAPON_COMBATSHOTGUN',
+
+    -- Rifles
+    'WEAPON_ASSAULTRIFLE',
+    'WEAPON_ASSAULTRIFLE_MK2',
+    'WEAPON_CARBINERIFLE',
+    'WEAPON_CARBINERIFLE_MK2',
+    'WEAPON_ADVANCEDRIFLE',
+    'WEAPON_SPECIALCARBINE',
+    'WEAPON_SPECIALCARBINE_MK2',
+    'WEAPON_BULLPUPRIFLE',
+    'WEAPON_BULLPUPRIFLE_MK2',
+    'WEAPON_COMPACTRIFLE',
+    'WEAPON_MILITARYRIFLE',
+    'WEAPON_HEAVYRIFLE',
+    'WEAPON_TACTICALRIFLE',
+
+    -- Melee
     'WEAPON_KNIFE',
     'WEAPON_DAGGER',
     'WEAPON_BAT',
@@ -85,7 +138,11 @@ Config.AllowedWeapons = {
     'WEAPON_SWITCHBLADE',
     'WEAPON_MACHETE',
     'WEAPON_BOTTLE',
-    'WEAPON_HAMMER'
+    'WEAPON_HAMMER',
+    'WEAPON_WRENCH',
+    'WEAPON_HATCHET',
+    'WEAPON_BATTLEAXE',
+    'WEAPON_POOLCUE'
 }
 
 Config.BlacklistedPedModels = {
