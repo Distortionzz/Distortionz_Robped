@@ -228,6 +228,21 @@ local function IsValidRobPed(ped, ignoreWeaponCheck)
 
     if ped == playerPed then return false end
 
+    -- v1.0.2 — Respect the Distortionz convention: any script-spawned ped
+    -- (hijack contact, peds dealer, cityhall clerk, weapon dealer, depot
+    -- ped, etc.) should set Entity(ped).state.distortionz_protected_ped
+    -- to true. RobPed always honors that flag, so script peds never
+    -- show the "Rob Civilian" target option.
+    local pedState = Entity(ped).state
+    if pedState and pedState.distortionz_protected_ped then
+        return false
+    end
+    -- Also respect a few common third-party conventions to play nice
+    -- with shopkeeper / job / quest peds from other resources.
+    if pedState and (pedState.isShopKeeper or pedState.invincible or pedState.protected) then
+        return false
+    end
+
     if IsPedAPlayer(ped) and not Config.Robbery.allowPlayers then
         return false
     end

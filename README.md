@@ -1,28 +1,55 @@
-# 💰 Distortionz Robped
+# Distortionz RobPed
 
-**Distortionz Robped** is a FiveM/Qbox resource built for immersive NPC robbery gameplay. Players can interact with nearby peds, attempt robberies, trigger police alerts, and receive configurable rewards.
+> Premium civilian robbery script for Qbox/FiveM — rob ambient NPC peds for cash, dirty money, or items, with escalating police alerts and protected-ped filtering.
 
-## ✨ Features
+![FiveM](https://img.shields.io/badge/FiveM-cerulean-yellow?style=flat-square&labelColor=181b20)
+![Qbox](https://img.shields.io/badge/Qbox-required-red?style=flat-square&labelColor=dfb317)
+![License](https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square)
+![Version](https://img.shields.io/github/v/release/Distortionzz/Distortionz_RobPed?style=flat-square&color=d4aa62&label=version)
 
-- 🎯 **ox_target** ped interaction support
-- 📦 **ox_inventory** reward support
-- 🔔 **ox_lib** notifications and callbacks
-- 👮 Police alert support
-- ⏱️ Configurable robbery cooldowns
-- 🎲 Configurable success/fail chance
-- 💵 Configurable cash/item rewards
-- 🧍 Immersive NPC robbery roleplay
-- ⚙️ Easy server-owner configuration
-- 🧼 Clean and simple resource structure
+---
 
-## 📦 Dependencies
+## Overview
 
-- `ox_lib`
-- `ox_target`
-- `ox_inventory`
-- `qbx_core` or `qb-core`
+Adds a "Rob Civilian" ox_target option to ambient NPC peds. Players threaten the ped, get a randomized loot drop, and risk a police alert. Script-spawned peds (contact peds, dealers, etc.) are auto-skipped via the `distortionz_protected_ped` state bag convention.
 
-## 📁 Resource Name
+## Features
 
-```text
-distortionz_robped
+- ox_target "Rob Civilian" on ambient NPCs
+- Randomized loot table (cash / dirty money / items)
+- Per-tier loot weights
+- Police alert chance with escalation
+- Cooldown per ped (one-time-rob tracking)
+- **Protected-ped filtering** — skips any ped flagged with:
+  - `distortionz_protected_ped` (Distortionz convention)
+  - `isShopKeeper` / `invincible` / `protected` (third-party)
+- Distortionz Notify support
+
+## Dependencies
+
+| Resource | Required | Purpose |
+|---|---|---|
+| `qbx_core` | yes | Player data, money |
+| `ox_lib` | yes | Callbacks, progress bar |
+| `ox_target` | yes | Ped interaction |
+| `ox_inventory` | yes | Loot rewards |
+| `distortionz_notify` | optional | Branded notifications |
+
+## Installation
+
+```cfg
+ensure distortionz_robped
+```
+
+## Configuration
+
+See [`config.lua`](config.lua) for loot table, police alert chance, cooldowns, and rob duration.
+
+## Credits
+
+- **Author:** Distortionz
+- **Framework:** [Qbox Project](https://github.com/Qbox-project)
+
+## License
+
+MIT — see [LICENSE](LICENSE).

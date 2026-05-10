@@ -1,6 +1,6 @@
 {
     "resource": "distortionz_robped",
-    "version": "1.0.1",
-    "changelog": "Weapon detection patch. RobPed now accepts any equipped weapon by default, expands the allowed weapon list, and keeps the target visible on valid civilians.",
-    "download": "https://github.com/Distortionzz/Distortionz_RobPed"
+    "version": "1.0.3",
+    "download": "https://github.com/Distortionzz/Distortionz_RobPed",
+    "changelog": "v1.0.3 — Added README.md with overview, features, dependencies, installation, and credits. Standardized GitHub repo metadata (badges, dynamic version pull, MIT license, Qbox required). v1.0.2 — Protected ped support. The 'Rob Civilian' target option no longer appears on script-spawned peds. IsValidRobPed now checks Entity(ped).state.distortionz_protected_ped before allowing the target. Also respects third-party state bag conventions: isShopKeeper, invincible, protected. v1.0.1 — Initial release."
 }

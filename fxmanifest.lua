@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Distortionz'
 description 'Distortionz RobPed - Rob ambient NPC peds for cash, dirty money, or items'
-version '1.0.1'
+version '1.0.3'
 
 lua54 'yes'
 

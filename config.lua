@@ -3,7 +3,7 @@ Config = {}
 Config.Debug = false
 
 Config.ResourceName = 'distortionz_robped'
-Config.CurrentVersion = '1.0.1'
+Config.CurrentVersion = '1.0.3'
 
 Config.VersionCheck = {
     enabled = true,
