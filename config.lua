@@ -3,7 +3,7 @@ Config = {}
 Config.Debug = false
 
 Config.ResourceName = 'distortionz_robped'
-Config.CurrentVersion = '1.0.3'
+Config.CurrentVersion = '1.1.0'
 
 Config.VersionCheck = {
     enabled = true,
@@ -199,6 +199,11 @@ Config.Rewards = {
 Config.Police = {
     enabled = true,
     alertChance = 80,
+
+    -- When true, anyone whose job is in the `jobs` list below cannot rob
+    -- peds at all (target option is hidden and the server refuses the
+    -- robbery). Regardless of on/off duty — it is purely job-based.
+    blockPoliceFromRobbing = true,
 
     jobs = {
         police = true,

@@ -1,6 +1,6 @@
 {
     "resource": "distortionz_robped",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "download": "https://github.com/Distortionzz/Distortionz_RobPed",
-    "changelog": "v1.0.3 — Added README.md with overview, features, dependencies, installation, and credits. Standardized GitHub repo metadata (badges, dynamic version pull, MIT license, Qbox required). v1.0.2 — Protected ped support. The 'Rob Civilian' target option no longer appears on script-spawned peds. IsValidRobPed now checks Entity(ped).state.distortionz_protected_ped before allowing the target. Also respects third-party state bag conventions: isShopKeeper, invincible, protected. v1.0.1 — Initial release."
+    "changelog": "v1.1.0 — Law-enforcement jobs can no longer rob peds. New Config.Police.blockPoliceFromRobbing toggle (default on) reuses the existing Config.Police.jobs list; the 'Rob Civilian' target is hidden client-side and the server authoritatively refuses the robbery, regardless of duty status. v1.0.4 — Feeds distortionz_cad: the police alert now also raises a live CAD dispatch call (code 10-90, priority 2) at the robbery coords. Guarded by resource state — no-op if the CAD isn't running. v1.0.3 — README + GitHub metadata. v1.0.2 — protected-ped support (no rob option on script peds; respects isShopKeeper/invincible/protected). v1.0.1 — Initial release."
 }

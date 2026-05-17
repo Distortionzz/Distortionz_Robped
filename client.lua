@@ -219,10 +219,50 @@ local function IsBlacklistedPed(ped)
 end
 
 
+local function GetClientJobName()
+    if GetResourceState('qbx_core') == 'started' then
+        local ok, data = pcall(function()
+            return exports.qbx_core:GetPlayerData()
+        end)
+
+        if ok and data and data.job and data.job.name then
+            return data.job.name
+        end
+    end
+
+    if GetResourceState('qb-core') == 'started' then
+        local ok, QBCore = pcall(function()
+            return exports['qb-core']:GetCoreObject()
+        end)
+
+        if ok and QBCore and QBCore.Functions and QBCore.Functions.GetPlayerData then
+            local data = QBCore.Functions.GetPlayerData()
+
+            if data and data.job and data.job.name then
+                return data.job.name
+            end
+        end
+    end
+
+    return nil
+end
+
+local function IsPoliceJob()
+    if not Config.Police or not Config.Police.blockPoliceFromRobbing then
+        return false
+    end
+
+    local job = GetClientJobName()
+
+    return job ~= nil and Config.Police.jobs[job] == true
+end
+
 local function IsValidRobPed(ped, ignoreWeaponCheck)
     if isRobbing then return false end
     if not ped or ped == 0 then return false end
     if not DoesEntityExist(ped) then return false end
+
+    if IsPoliceJob() then return false end
 
     local playerPed = PlayerPedId()
 
@@ -395,6 +435,11 @@ local function RobPed(ped)
 
     if not DoesEntityExist(ped) then
         Notify('Invalid civilian.', 'error')
+        return
+    end
+
+    if IsPoliceJob() then
+        Notify('Law enforcement cannot rob civilians.', 'error')
         return
     end
 

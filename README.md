@@ -23,6 +23,7 @@ Adds a "Rob Civilian" ox_target option to ambient NPC peds. Players threaten the
 - **Protected-ped filtering** — skips any ped flagged with:
   - `distortionz_protected_ped` (Distortionz convention)
   - `isShopKeeper` / `invincible` / `protected` (third-party)
+- **Law-enforcement lockout** — police-type jobs can't rob peds (target hidden + server-enforced)
 - Distortionz Notify support
 
 ## Dependencies
@@ -44,6 +45,8 @@ ensure distortionz_robped
 ## Configuration
 
 See [`config.lua`](config.lua) for loot table, police alert chance, cooldowns, and rob duration.
+
+`Config.Police.blockPoliceFromRobbing` (default `true`) stops any job listed in `Config.Police.jobs` (`police`, `sheriff`, `state`) from robbing peds — applied whether on or off duty. Add jobs to that list to extend the lockout.
 
 ## Credits
 

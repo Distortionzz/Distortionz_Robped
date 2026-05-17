@@ -171,6 +171,18 @@ local function AlertPolice(coords)
 
     if roll > (Config.Police.alertChance or 80) then return end
 
+    if GetResourceState('distortionz_cad') == 'started' then
+        pcall(function()
+            exports['distortionz_cad']:AddCall({
+                code     = '10-90',
+                title    = 'Civilian robbery reported',
+                location = 'See map',
+                coords   = { x = coords.x, y = coords.y, z = coords.z },
+                priority = 2,
+            })
+        end)
+    end
+
     for _, playerId in ipairs(GetPlayers()) do
         local playerSrc = tonumber(playerId)
         local job = GetPlayerJob(playerSrc)
@@ -274,6 +286,18 @@ lib.callback.register('distortionz_robped:server:startRobbery', function(src, da
             status = 'warning',
             message = 'You are already robbing someone.'
         }
+    end
+
+    if Config.Police and Config.Police.blockPoliceFromRobbing then
+        local job = GetPlayerJob(src)
+
+        if job and Config.Police.jobs[job] then
+            return {
+                success = false,
+                status = 'error',
+                message = 'Law enforcement cannot rob civilians.'
+            }
+        end
     end
 
     local citizenId = GetCitizenId(src)
